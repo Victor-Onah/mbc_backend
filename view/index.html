@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Admin Dashboard</title>
+	</head>
+	<body>
+		<form id="form">
+			<div class="field">
+				<input
+					type="file"
+					accept="image/*"
+					name="image"
+					id="image"
+					required />
+				<label for="image">Upload product image*</label>
+			</div>
+			<div class="field">
+				<input
+					name="name"
+					id="name"
+					type="text"
+					required />
+				<label for="name">Name*</label>
+			</div>
+			<div class="field">
+				<input
+					type="number"
+					name="price"
+					id="price" />
+				<label for="price">Price*</label>
+			</div>
+			<textarea
+				name="description"
+				id="desc"
+				cols="30"
+				rows="10"
+				placeholder="Write the product description please. But it's not compulsory"></textarea>
+			<button type="submit">Upload</button>
+		</form>
+		<script>
+			let form = document.forms['form'];
+			form.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				let name, image, description, price;
+				name = document.getElementById('name');
+				image = document.getElementById('image');
+				description = document.getElementById('desc');
+				price = document.getElementById('price');
+				const form = new FormData();
+				form.append('name', name.value.trim());
+				form.append('description', description.value.trim());
+				form.append('price', price.value.trim());
+				form.append('image', image.files[0]);
+				let response = await fetch(
+					`http://localhost:8000/api/admin/product/upload`,
+					{
+						method: 'POST',
+						body: form,
+					}
+				);
+				let data = await response.json();
+				if (!data.success) {
+					return alert(data.message);
+				}
+				alert('Product uploaded successfully!');
+			});
+		</script>
+	</body>
+</html>
