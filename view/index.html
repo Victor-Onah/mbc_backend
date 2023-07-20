@@ -55,13 +55,10 @@
 				form.append('description', description.value.trim());
 				form.append('price', price.value.trim());
 				form.append('image', image.files[0]);
-				let response = await fetch(
-					`http://localhost:8000/api/admin/product/upload`,
-					{
-						method: 'POST',
-						body: form,
-					}
-				);
+				let response = await fetch(`/api/admin/product/upload`, {
+					method: 'POST',
+					body: form,
+				});
 				let data = await response.json();
 				if (!data.success) {
 					return alert(data.message);

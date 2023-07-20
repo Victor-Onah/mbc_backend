@@ -8,6 +8,7 @@ const cart = require('./routes/cart');
 const register = require('./controllers/register');
 const login = require('./controllers/login');
 const router = require('./routes/admin');
+const { resolve } = require('path');
 // Enable .env file access
 config();
 
@@ -30,6 +31,9 @@ mongoose
 
 		// Enable json body
 		app.use(express.json());
+
+		// Static route
+		app.use(express.static(resolve(__dirname, './view')));
 
 		// Route handler for cart
 		app.use('/api/cart', cart);
