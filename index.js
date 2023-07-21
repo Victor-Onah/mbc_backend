@@ -7,8 +7,9 @@ let Product = require('./models/product');
 const cart = require('./routes/cart');
 const register = require('./controllers/register');
 const login = require('./controllers/login');
-const router = require('./routes/admin');
+const admin = require('./routes/admin');
 const { resolve } = require('path');
+const products = require('./routes/product');
 // Enable .env file access
 config();
 
@@ -39,7 +40,10 @@ mongoose
 		app.use('/api/cart', cart);
 
 		// Admin routes
-		app.use('/api/admin', router);
+		app.use('/api/admin', admin);
+
+		// Products route
+		app.use('/api/products', products);
 
 		// Handle user registration
 		app.post('/api/register', register);

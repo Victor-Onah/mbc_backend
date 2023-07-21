@@ -1,7 +1,7 @@
+const Message = require('../models/messages');
 const Product = require('../models/product');
-const { writeFile, readFileSync } = require('fs');
-const { resolve } = require('path');
 
+// Upload product
 const uploadProduct = async (req, res, next) => {
 	await import('formidable')
 		.then((module) => {
@@ -9,35 +9,27 @@ const uploadProduct = async (req, res, next) => {
 				keepExtensions: true,
 			});
 			form.parse(req, async (error, fields, files) => {
-				let { image } = files;
-				let filename = image[0].newFilename;
-				console.log(image.filepath);
-				let raw = readFileSync(image[0].filepath);
-				let newFilePath = resolve(__dirname, '../view/uploads', filename);
-				writeFile(newFilePath, raw, async (error) => {
-					if (error) {
-						return res.json({
-							success: false,
-							message:
-								'Failed to complete request because, there was an error in file upload.',
-						});
-					}
+				if (error) {
+					return res.json({
+						success: false,
+						message: 'An unexpected error occurred',
+					});
+				}
+				try {
+					let { image } = files;
+					let raw = readFileSync(image[0].filepath);
 					let { name, price, description } = fields;
 					await Product.create({
 						name: name[0],
 						price: price[0],
-						image: newFilePath,
+						image: raw,
 						description: description[0],
-					})
-						.then((doc) => res.json({ success: true, data: { ...doc._doc } }))
-						.catch((error) => {
-							res.json({
-								success: false,
-								message: 'An unexpected error occurred',
-							});
-							next(error);
-						});
-				});
+					});
+					res.json({ success: true });
+				} catch (error) {
+					res.json({ success: false, message: 'An unexpected error occurred' });
+					next(error);
+				}
 			});
 		})
 		.catch((error) => {
@@ -49,4 +41,49 @@ const uploadProduct = async (req, res, next) => {
 		});
 };
 
-module.exports = { uploadProduct };
+// Delete a product
+const deleteProduct = async (req, res, next) => {
+	try {
+		let { productID } = req.params;
+		await Product.findOneAndDelete({ id: productID });
+		res.json({ success: true });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+
+// Update a product
+const updateProduct = async (req, res, next) => {
+	try {
+		let { productID } = req.params;
+		let { payload } = req.body;
+		await Product.findOneAndUpdate({ id: productID }, { ...payload });
+		res.json({ success: true });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+
+// Get messages
+const getMessages = async (req, res, next) => {
+	try {
+		const messages = await Message.find({});
+		res.json({ success: true, data: [...messages] });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+
+module.exports = { uploadProduct, deleteProduct, updateProduct, getMessages };
