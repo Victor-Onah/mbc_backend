@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema({
 		type: String,
 		default: uuid(),
 	},
-	image: Buffer,
+	image: String,
 	discount: {
 		type: Number,
 		default: 0,
