@@ -145,11 +145,11 @@
 				});
 				let data = await response.json();
 				if (!data.success) {
-					e.target.rest();
+					e.target.reset();
 					btn.removeAttribute('disabled');
 					return alert(data.message);
 				}
-				e.target.rest();
+				e.target.reset();
 				btn.removeAttribute('disabled');
 				alert('Product uploaded successfully!');
 			});
