@@ -1,5 +1,6 @@
 const Message = require('../models/message');
 const Product = require('../models/product');
+const { readFileSync } = require('fs');
 
 // Upload product
 const uploadProduct = async (req, res, next) => {

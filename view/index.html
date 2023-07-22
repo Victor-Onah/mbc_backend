@@ -145,6 +145,7 @@
 				});
 				let data = await response.json();
 				if (!data.success) {
+					btn.removeAttribute('disabled');
 					return alert(data.message);
 				}
 				btn.removeAttribute('disabled');
