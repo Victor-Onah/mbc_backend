@@ -139,7 +139,7 @@
 				form.append('description', description.value.trim());
 				form.append('price', price.value.trim());
 				form.append('image', image.files[0]);
-				let response = await fetch(`/api/admin/product/upload`, {
+				let response = await fetch(`/api/admin/products/upload`, {
 					method: 'POST',
 					body: form,
 				});
