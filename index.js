@@ -2,9 +2,6 @@ let express = require('express');
 let mongoose = require('mongoose');
 let { config } = require('dotenv');
 let cors = require('cors');
-const users = require('./routes/users');
-const register = require('./controllers/register');
-const login = require('./controllers/login');
 const admin = require('./routes/admin');
 const { resolve } = require('path');
 const products = require('./routes/product');
@@ -34,20 +31,11 @@ mongoose
 		// Static route
 		app.use(express.static(resolve(__dirname, './view')));
 
-		// Route handler for users
-		app.use('/api/users', users);
-
 		// Admin routes
 		app.use('/api/admin', admin);
 
 		// Products route
 		app.use('/api/products', products);
-
-		// Handle user registration
-		app.post('/api/register', register);
-
-		// Handle user Login
-		app.post('/api/login', login);
 
 		// Set the port
 		let port = process.env.PORT || 8000;
