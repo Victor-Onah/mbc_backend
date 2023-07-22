@@ -8,6 +8,12 @@ const messageSchema = new mongoose.Schema({
 	},
 	content: String,
 	senderID: String,
+	phoneNumber: Number,
+	name: String,
+	dateSent: {
+		type: Date,
+		default: new Date().toUTCString(),
+	},
 });
 
 const Message = mongoose.model('Message', messageSchema);

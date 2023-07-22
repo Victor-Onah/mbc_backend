@@ -1,10 +1,8 @@
 let express = require('express');
 let mongoose = require('mongoose');
 let { config } = require('dotenv');
-let User = require('./models/user');
 let cors = require('cors');
-let Product = require('./models/product');
-const cart = require('./routes/cart');
+const users = require('./routes/users');
 const register = require('./controllers/register');
 const login = require('./controllers/login');
 const admin = require('./routes/admin');
@@ -36,8 +34,8 @@ mongoose
 		// Static route
 		app.use(express.static(resolve(__dirname, './view')));
 
-		// Route handler for cart
-		app.use('/api/cart', cart);
+		// Route handler for users
+		app.use('/api/users', users);
 
 		// Admin routes
 		app.use('/api/admin', admin);

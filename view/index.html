@@ -6,6 +6,85 @@
 			name="viewport"
 			content="width=device-width, initial-scale=1.0" />
 		<title>Admin Dashboard</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body,
+			html {
+				height: 100%;
+				background-color: #333;
+				color: antiquewhite;
+				font-size: 16px;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			body {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			form {
+				width: fit-content;
+				background-color: #666;
+				padding: 1rem;
+				border-radius: 10px;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+			input[type='file'] {
+				color: black;
+			}
+			.field {
+				position: relative;
+			}
+			.field label {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				background-color: inherit;
+				left: 0.75rem;
+				font-size: 0.85rem;
+				color: grey;
+				transition: 0.25s linear all;
+			}
+			textarea,
+			.field input {
+				display: block;
+				padding: 0.75rem;
+				outline: none;
+				border: none;
+				background-color: #f1f1f1;
+				border-radius: 5px;
+				width: 100%;
+				font-size: 0.85rem;
+			}
+			.field input:focus ~ label,
+			.field input:valid ~ label {
+				top: 0;
+				font-size: 0.65rem;
+				padding: 0.1rem;
+				background-color: #fff;
+				box-shadow: var(--shadow);
+				border-radius: 3px;
+			}
+			button {
+				border: none;
+				width: 100%;
+				max-width: 300px;
+				margin: auto;
+				background-color: rgb(255, 0, 119);
+				color: white !important;
+				padding: 0.75rem;
+				white-space: nowrap;
+				display: block;
+				border-radius: 3px;
+				box-shadow: var(--shadow);
+				margin: auto;
+			}
+		</style>
 	</head>
 	<body>
 		<form id="form">
@@ -16,7 +95,6 @@
 					name="image"
 					id="image"
 					required />
-				<label for="image">Upload product image*</label>
 			</div>
 			<div class="field">
 				<input
@@ -24,14 +102,14 @@
 					id="name"
 					type="text"
 					required />
-				<label for="name">Name*</label>
+				<label for="name">Name</label>
 			</div>
 			<div class="field">
 				<input
 					type="number"
 					name="price"
 					id="price" />
-				<label for="price">Price*</label>
+				<label for="price">Price</label>
 			</div>
 			<textarea
 				name="description"
@@ -39,33 +117,37 @@
 				cols="30"
 				rows="10"
 				placeholder="Write the product description please. But it's not compulsory"></textarea>
-			<button type="submit">Upload</button>
+			<button
+				id="btn"
+				type="submit">
+				Upload
+			</button>
 		</form>
 		<script>
 			let form = document.forms['form'];
 			form.addEventListener('submit', async (e) => {
 				e.preventDefault();
-				let name, image, description, price;
+				let name, image, description, price, btn;
 				name = document.getElementById('name');
 				image = document.getElementById('image');
 				description = document.getElementById('desc');
 				price = document.getElementById('price');
+				btn = document.getElementById('btn');
+				btn.setAttribute('disabled', true);
 				const form = new FormData();
 				form.append('name', name.value.trim());
 				form.append('description', description.value.trim());
 				form.append('price', price.value.trim());
 				form.append('image', image.files[0]);
-				let response = await fetch(
-					`http://localhost:8000/api/admin/product/upload`,
-					{
-						method: 'POST',
-						body: form,
-					}
-				);
+				let response = await fetch(`/api/admin/product/upload`, {
+					method: 'POST',
+					body: form,
+				});
 				let data = await response.json();
 				if (!data.success) {
 					return alert(data.message);
 				}
+				btn.removeAttribute('disabled');
 				alert('Product uploaded successfully!');
 			});
 		</script>

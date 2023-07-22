@@ -1,3 +1,4 @@
+const Message = require('../models/message');
 const Product = require('../models/product');
 const User = require('../models/user');
 
@@ -67,4 +68,23 @@ const updateCart = async (req, res, next) => {
 	}
 };
 
-module.exports = { updateCart };
+// Send message
+const sendMessage = async (req, res, next) => {
+	try {
+		let { content, senderID, phoneNumber, name } = req.body;
+		await Message.create({
+			content,
+			senderID,
+			phoneNumber,
+			name,
+		});
+		res.json({ success: true });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+module.exports = { updateCart, sendMessage };

@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 const register = async (req, res, next) => {
 	try {
-		let { name, email, password } = req.body;
+		let { name, email, password, phoneNumber } = req.body;
 		let existingUser = await User.findOne({ email });
 		if (existingUser) {
 			return res.json({
@@ -14,6 +14,7 @@ const register = async (req, res, next) => {
 			name,
 			email,
 			password,
+			phoneNumber,
 		});
 		res.json({ success: true, data: { ...newUser._doc } });
 	} catch (error) {

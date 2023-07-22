@@ -1,4 +1,4 @@
-const Message = require('../models/messages');
+const Message = require('../models/message');
 const Product = require('../models/product');
 
 // Upload product
