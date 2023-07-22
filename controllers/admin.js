@@ -23,7 +23,7 @@ const uploadProduct = async (req, res, next) => {
 					await Product.create({
 						name: name[0],
 						price: price[0],
-						image: raw,
+						image: raw.toString('base64'),
 						description: description[0],
 					});
 					res.json({ success: true });
