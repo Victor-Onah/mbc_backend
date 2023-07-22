@@ -6,20 +6,12 @@ const productSchema = new mongoose.Schema({
 		type: String,
 		default: 'No description available for this product',
 	},
-	inStock: {
-		type: Boolean,
-		default: true,
-	},
 	price: Number,
 	id: {
 		type: String,
-		default: uuid(),
+		default: () => uuid(),
 	},
 	image: String,
-	discount: {
-		type: Number,
-		default: 0,
-	},
 });
 
 const Product = mongoose.model('Product', productSchema);

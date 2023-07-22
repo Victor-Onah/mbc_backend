@@ -4,7 +4,7 @@ const { v4: uuid } = require('uuid');
 const messageSchema = new mongoose.Schema({
 	id: {
 		type: String,
-		default: uuid(),
+		default: () => uuid(),
 	},
 	content: String,
 	senderID: String,
