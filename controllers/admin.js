@@ -1,4 +1,5 @@
 const Message = require('../models/message');
+const Order = require('../models/order');
 const Product = require('../models/product');
 const { readFileSync } = require('fs');
 
@@ -87,4 +88,23 @@ const getMessages = async (req, res, next) => {
 	}
 };
 
-module.exports = { uploadProduct, deleteProduct, updateProduct, getMessages };
+const getOrders = async (req, res, next) => {
+	try {
+		const messages = await Order.find({});
+		res.json({ success: true, data: [...messages] });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+
+module.exports = {
+	uploadProduct,
+	deleteProduct,
+	updateProduct,
+	getMessages,
+	getOrders,
+};

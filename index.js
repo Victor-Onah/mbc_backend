@@ -5,6 +5,7 @@ let cors = require('cors');
 const admin = require('./routes/admin');
 const { resolve } = require('path');
 const products = require('./routes/product');
+const users = require('./routes/users');
 // Enable .env file access
 config();
 
@@ -36,6 +37,9 @@ mongoose
 
 		// Products route
 		app.use('/api/products', products);
+
+		// User routes
+		app.use('/api/users', users);
 
 		// Set the port
 		let port = process.env.PORT || 8000;

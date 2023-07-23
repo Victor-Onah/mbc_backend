@@ -1,8 +1,8 @@
-const { updateCart, sendMessage } = require('../controllers/users');
+const { sendMessage, placeOrder } = require('../controllers/users');
 const router = require('express').Router();
 
-router.put('/cart/add/:userID/:productID', updateCart);
-
 router.post('/message', sendMessage);
+
+router.post('/order', placeOrder);
 
 module.exports = router;
