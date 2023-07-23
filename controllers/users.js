@@ -1,3 +1,4 @@
+const Message = require('../models/message');
 const Order = require('../models/order');
 
 // Send message
