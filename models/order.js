@@ -3,7 +3,7 @@ const { v4: uuid } = require('uuid');
 
 const orderSchema = new mongoose.Schema({
 	name: String,
-	order: Array,
+	order: String,
 	phoneNumber: Number,
 	id: {
 		type: String,
