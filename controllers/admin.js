@@ -88,10 +88,41 @@ const getMessages = async (req, res, next) => {
 	}
 };
 
+// Get orders
 const getOrders = async (req, res, next) => {
 	try {
 		const orders = await Order.find({});
 		res.json({ success: true, data: [...orders] });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+
+//  Complete order
+const completeOrder = async (req, res, next) => {
+	try {
+		let { id } = req.params;
+		await Order.findOneAndUpdate({ id }, { delivered: true });
+		res.json({ success: true });
+	} catch (error) {
+		res.json({
+			success: false,
+			message: 'An unexpected error occurred',
+		});
+		next(error);
+	}
+};
+
+// Read a message
+const markMessageAsRead = async (req, res, next) => {
+	try {
+		let { id } = req.params;
+		await Message.findOneAndUpdate({ id }, { read: true });
+		res.json({ success: true });
 	} catch (error) {
 		res.json({
 			success: false,
@@ -107,4 +138,6 @@ module.exports = {
 	updateProduct,
 	getMessages,
 	getOrders,
+	completeOrder,
+	markMessageAsRead,
 };

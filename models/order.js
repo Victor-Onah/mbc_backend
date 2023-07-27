@@ -9,6 +9,7 @@ const orderSchema = new mongoose.Schema({
 		type: String,
 		default: () => uuid(),
 	},
+	delivered: false,
 });
 
 const Order = mongoose.model('Order', orderSchema);
