@@ -62,7 +62,7 @@ const deleteProduct = async (req, res, next) => {
 const updateProduct = async (req, res, next) => {
 	try {
 		let { productID } = req.params;
-		let { payload } = req.body;
+		let payload = req.body;
 		await Product.findOneAndUpdate({ id: productID }, { ...payload });
 		res.json({ success: true });
 	} catch (error) {
@@ -90,8 +90,8 @@ const getMessages = async (req, res, next) => {
 
 const getOrders = async (req, res, next) => {
 	try {
-		const messages = await Order.find({});
-		res.json({ success: true, data: [...messages] });
+		const orders = await Order.find({});
+		res.json({ success: true, data: [...orders] });
 	} catch (error) {
 		res.json({
 			success: false,

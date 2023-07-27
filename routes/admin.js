@@ -3,6 +3,7 @@ const {
 	deleteProduct,
 	updateProduct,
 	getMessages,
+	getOrders,
 } = require('../controllers/admin');
 const router = require('express').Router();
 
@@ -18,4 +19,7 @@ router
 
 // Get messages
 router.get('/messages', getMessages);
+
+// Get orders
+router.get('/orders', getOrders);
 module.exports = router;

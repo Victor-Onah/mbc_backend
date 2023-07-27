@@ -7,12 +7,15 @@ const messageSchema = new mongoose.Schema({
 		default: () => uuid(),
 	},
 	content: String,
-	senderID: String,
 	phoneNumber: Number,
 	name: String,
 	dateSent: {
 		type: Date,
 		default: new Date().toUTCString(),
+	},
+	read: {
+		type: Boolean,
+		default: false,
 	},
 });
 
