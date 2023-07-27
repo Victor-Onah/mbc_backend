@@ -41,6 +41,9 @@ mongoose
 		// User routes
 		app.use('/api/users', users);
 
+		app.get('*', (req, res, next) =>
+			res.sendFile(resolve(__dirname, './view/index.html'))
+		);
 		// Set the port
 		let port = process.env.PORT || 8000;
 
